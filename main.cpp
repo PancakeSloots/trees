@@ -5,7 +5,7 @@ using namespace std;
 struct Node { 
     int data; 
     int children;
-    Node *left, *right; 
+    Node *left, *right, *parent; 
 }; 
   
 Node* newNode(int data) 
@@ -69,7 +69,48 @@ int randomNode(Node* root)
     int count = rand() % (root->children + 1); 
     return randomNodeUtil(root, count); 
 } 
-  
+
+ //begin insert 
+
+Node * Insert(Node * node, int data)
+{
+    // If BST doesn't exist
+    // create a new node as root
+    // or it's reached when
+    // there's no any child node
+    // so we can insert a new node here
+    if(node == NULL)
+    {
+        node = new Node;
+        node->Data = data;
+        node->Left = NULL;
+        node->Right = NULL;
+        node->Parent = NULL;
+    }
+    // If the given key(data) is greater than
+    // node's key then go to right subtree
+    else if(node->Data < data)
+    {
+        node->Right = Insert(node->Right, data);
+        node->Right->Parent = node;
+    }
+    // If the given key(data) is smaller than
+    // node's key then go to left subtree
+    else
+    {
+        node->Left = Insert(node->Left, data);
+        node->Left->Parent = node;
+    }
+return node;
+}
+
+void Insert(int data)
+{
+    // Invoking Insert() function
+    // and passing root node and given key(data)
+    root = Insert(root, data);
+}
+
 int main() 
 { 
     // Creating Above Tree 
